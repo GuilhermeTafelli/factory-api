@@ -21,6 +21,14 @@ module.exports = {
   async listPurchaseOrdersPaged(page, size){
     const purchaseOrdersResponse = await OmieService.listPurchaseOrdersPaged(page, size, "20")
     console.log(purchaseOrdersResponse)
+    
+    if(!purchaseOrdersResponse.pedido_venda_produto) return {
+      page: page,
+      totalPages: 0,
+      totalRecords: 0,
+      purchaseOrders: []
+    }
+    
     const purchaseOrders = purchaseOrdersResponse.pedido_venda_produto
     
     const promises = purchaseOrders.map(async purchaseOrder => {
